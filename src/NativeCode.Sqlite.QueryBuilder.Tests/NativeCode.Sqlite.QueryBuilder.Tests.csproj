@@ -104,6 +104,12 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NativeCode.Sqlite.QueryBuilder\NativeCode.Sqlite.QueryBuilder.csproj">
+      <Project>{388DAB39-0D49-4C2F-9903-4F2C242BD764}</Project>
+      <Name>NativeCode.Sqlite.QueryBuilder</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

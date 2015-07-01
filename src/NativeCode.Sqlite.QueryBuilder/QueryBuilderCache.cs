@@ -21,5 +21,10 @@
 
             return table;
         }
+
+        public static EntityTable GetEntityTable<T>()
+        {
+            return GetEntityTable(typeof(T));
+        }
     }
 }

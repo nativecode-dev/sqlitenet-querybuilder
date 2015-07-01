@@ -1,7 +1,9 @@
-﻿namespace NativeCode.Sqlite.QueryBuilder.Converters
+﻿namespace NativeCode.Sqlite.QueryBuilder.Attributes
 {
     using System;
     using System.Linq;
+
+    using NativeCode.Sqlite.QueryBuilder.Converters;
 
     public sealed class ConvertAttribute : Attribute
     {
@@ -14,7 +16,7 @@
 
         public IQueryValueConverter GetConverter()
         {
-            return QueryBuilder.Current.Converters.FirstOrDefault(x => x.CanConvert(this.Type));
+            return QueryBuilder.Configuration.Converters.FirstOrDefault(x => x.CanConvert(this.Type));
         }
     }
 }

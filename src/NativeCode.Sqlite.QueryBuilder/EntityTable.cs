@@ -27,18 +27,76 @@ namespace NativeCode.Sqlite.QueryBuilder
             this.Name = this.GetTableName();
         }
 
+        public string Alias { get; private set; }
+
         public IReadOnlyList<EntityColumn> Columns
         {
             get { return this.columns; }
         }
 
-        public string Alias { get; private set; }
-
         public string Name { get; private set; }
 
-        public Type Type { get; private set; }
+        public string TypeName
+        {
+            get { return this.Type.Name; }
+        }
 
-        public string GetTableName()
+        protected Type Type { get; private set; }
+
+        public IEnumerable<EntityColumn> GetCompositeKeys()
+        {
+            return from column in this.Columns where column.IsPrimaryKey select column;
+        }
+
+        public IEnumerable<EntityColumn> GetAllColumns()
+        {
+            return from column in this.Columns select column;
+        }
+
+        public IEnumerable<EntityColumn> GetIndexedColumns()
+        {
+            return from column in this.Columns where column.IsIndexed orderby column.IndexOrder select column;
+        }
+
+        public EntityColumn GetPrimaryKey()
+        {
+            try
+            {
+                return this.Columns.Single(c => c.IsPrimaryKey);
+            }
+            catch (Exception ex)
+            {
+                // TODO: Replace with a more meaningful exception.
+                throw new InvalidOperationException("More than one primary key exists.", ex);
+            }
+        }
+
+        public IEnumerable<EntityColumn> GetSortedColumns()
+        {
+            return from column in this.Columns where column.IsSorted orderby column.SortPriority orderby column.Name select column;
+        }
+
+        public IEnumerable<EntityColumn> GetUpdatableColumns()
+        {
+            return this.Columns.Where(column => !column.IsPrimaryKey && !column.IsIgnored && !column.IsReadOnly && !column.UseDefaultValue);
+        }
+
+        public bool HasCompositeKeys()
+        {
+            return this.Columns.Count(c => c.IsPrimaryKey) > 1;
+        }
+
+        public bool IsIndexed()
+        {
+            return this.Columns.Any(c => c.IsIndexed);
+        }
+
+        public bool IsSorted()
+        {
+            return this.Columns.Any(c => c.IsSorted);
+        }
+
+        private string GetTableName()
         {
             var attribute = this.Type.GetTypeInfo().GetCustomAttribute<TableAttribute>();
 

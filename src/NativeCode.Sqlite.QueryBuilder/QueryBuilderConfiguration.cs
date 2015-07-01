@@ -23,10 +23,6 @@
             this.isFrozen = frozen;
         }
 
-        public bool AlwaysUseColumnAlias { get; set; }
-
-        public bool AlwaysUseTableAlias { get; set; }
-
         public List<IQueryValueConverter> Converters { get; private set; }
 
         [SuppressMessage("ReSharper", "ConvertToAutoPropertyWithPrivateSetter", Justification = "Reviewed. Suppression is OK here. Freezable.")]
@@ -40,6 +36,12 @@
         public bool QualifyTableNames { get; set; }
 
         public bool StoreDateTimeAsTicks { get; set; }
+
+        public bool UseColumnAlias { get; set; }
+
+        public bool UseDoubleQuotes { get; set; }
+
+        public bool UseTableAlias { get; set; }
 
         public void Freeze()
         {

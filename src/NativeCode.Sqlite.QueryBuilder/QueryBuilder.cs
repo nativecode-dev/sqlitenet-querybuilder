@@ -2,12 +2,12 @@
 {
     public class QueryBuilder
     {
-        private static QueryBuilderConfiguration currentConfiguration = QueryBuilderConfiguration.Default;
+        private static QueryBuilderConfiguration current = QueryBuilderConfiguration.Default;
 
-        public static QueryBuilderConfiguration Current
+        public static QueryBuilderConfiguration Configuration
         {
-            get { return currentConfiguration; }
-            set { currentConfiguration = value; }
+            get { return current; }
+            set { current = value; }
         }
     }
 }
