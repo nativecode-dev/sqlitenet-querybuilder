@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public static class QueryBuilderCache
+    internal static class QueryBuilderCache
     {
         private static readonly Dictionary<string, EntityTable> CachedTables = new Dictionary<string, EntityTable>();
 

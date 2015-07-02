@@ -2,11 +2,11 @@
 {
     public class EntityColumnFilter
     {
-        internal EntityColumnFilter(EntityColumn column, string groupName, FilterExpression expression, FilterComparison comparison)
+        internal EntityColumnFilter(EntityColumn column, string groupName, FilterCondition condition, FilterComparison comparison)
         {
             this.Column = column;
             this.Comparison = comparison;
-            this.Expression = expression;
+            this.Condition = condition;
             this.GroupName = groupName;
         }
 
@@ -14,7 +14,7 @@
 
         public FilterComparison Comparison { get; private set; }
 
-        public FilterExpression Expression { get; private set; }
+        public FilterCondition Condition { get; private set; }
 
         public string GroupName { get; private set; }
     }

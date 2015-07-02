@@ -1,5 +1,6 @@
 ﻿namespace NativeCode.Sqlite.QueryBuilder
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -23,19 +24,24 @@
 
         protected EntityTable Table { get; private set; }
 
-        public static QueryBuilder New(EntityTable table)
+        public static QueryBuilder From<TEntity>() where TEntity : class
+        {
+            return From(QueryBuilderCache.GetEntityTable<TEntity>());
+        }
+
+        public static QueryBuilder From(EntityTable table)
         {
             return new QueryBuilder(table);
         }
 
-        public QueryBuilder And(EntityColumn column, FilterComparison comparison = FilterComparison.Equals)
+        public QueryBuilder And(Func<EntityTable, EntityColumn> factory, FilterComparison comparison = FilterComparison.Equals)
         {
-            this.CurrentStatement.Filter(column, comparison: comparison);
+            this.CurrentStatement.Filter(factory(this.Table), comparison: comparison);
 
             return this;
         }
 
-        public QueryTemplate BuildTemplate()
+        public virtual QueryTemplate BuildTemplate()
         {
             while (this.statements.Any())
             {
@@ -45,7 +51,7 @@
 
             this.template.Append(";");
 
-            return QueryTemplate.Parse(this.template.ToString());
+            return this.ParseQueryTemplate(this.template.ToString());
         }
 
         public QueryBuilder Delete()
@@ -55,10 +61,10 @@
             return this;
         }
 
-        public QueryBuilder Insert(IEnumerable<EntityColumn> columns)
+        public QueryBuilder Insert(Func<EntityTable, IEnumerable<EntityColumn>> factory)
         {
             this.BeginStatement(new InsertStatement(this.Table));
-            this.CurrentStatement.Select(columns);
+            this.CurrentStatement.Select(factory(this.Table));
 
             return this;
         }
@@ -68,42 +74,42 @@
             this.template.Clear();
         }
 
-        public QueryBuilder Select(IEnumerable<EntityColumn> columns)
+        public QueryBuilder Select(Func<EntityTable, IEnumerable<EntityColumn>> factory)
         {
             this.BeginStatement(new SelectStatement(this.Table));
-            this.CurrentStatement.Select(columns);
+            this.CurrentStatement.Select(factory(this.Table));
 
             return this;
         }
 
-        public QueryBuilder OrderBy(EntityColumn column, SortDirection direction = SortDirection.Default)
+        public QueryBuilder OrderBy(Func<EntityTable, EntityColumn> factory, SortDirection direction = SortDirection.Default)
         {
             this.BeginStatement(new OrderByStatement(this.Table));
-            this.CurrentStatement.Sort(column, direction);
+            this.CurrentStatement.Sort(factory(this.Table), direction);
 
             return this;
         }
 
-        public QueryBuilder OrderBy(IEnumerable<EntityColumn> columns)
+        public QueryBuilder OrderBy(Func<EntityTable, IEnumerable<EntityColumn>> factory)
         {
             this.BeginStatement(new OrderByStatement(this.Table));
-            this.CurrentStatement.Sort(columns);
+            this.CurrentStatement.Sort(factory(this.Table));
 
             return this;
         }
 
-        public QueryBuilder Where(EntityColumn column)
+        public QueryBuilder Where(Func<EntityTable, EntityColumn> factory)
         {
             this.BeginStatement(new WhereStatement(this.Table));
-            this.CurrentStatement.Filter(column);
+            this.CurrentStatement.Filter(factory(this.Table));
 
             return this;
         }
 
-        public QueryBuilder Where(IEnumerable<EntityColumn> columns)
+        public QueryBuilder Where(Func<EntityTable, IEnumerable<EntityColumn>> factory)
         {
             this.BeginStatement(new WhereStatement(this.Table));
-            this.CurrentStatement.Filter(columns);
+            this.CurrentStatement.Filter(factory(this.Table));
 
             return this;
         }
@@ -119,6 +125,11 @@
             }
 
             throw new StatementException(this.CurrentStatement, statement);
+        }
+
+        protected QueryTemplate ParseQueryTemplate(string query)
+        {
+            return QueryTemplate.Parse(query);
         }
     }
 }

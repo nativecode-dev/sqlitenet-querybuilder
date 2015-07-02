@@ -35,11 +35,8 @@
         [Test]
         public void ShouldBuildDeleteQuery()
         {
-            // Arrange
-            var table = QueryBuilderCache.GetEntityTable<Person>();
-
-            // Act
-            var template = QueryBuilder.New(table).Delete().BuildTemplate();
+            // Arrange, Act
+            var template = QueryBuilder.From<Person>().Delete().BuildTemplate();
 
             // Assert
             Assert.AreEqual(this.GetExpectation(ExpectedDeleteQuery), template.Query);
@@ -48,11 +45,8 @@
         [Test]
         public void ShouldBuildDeleteQueryFiltered()
         {
-            // Arrange
-            var table = QueryBuilderCache.GetEntityTable<Person>();
-
-            // Act
-            var template = QueryBuilder.New(table).Delete().Where(table.GetPrimaryKey()).BuildTemplate();
+            // Arrange, Act
+            var template = QueryBuilder.From<Person>().Delete().Where(person => person.GetPrimaryKey()).BuildTemplate();
 
             // Assert
             Assert.AreEqual(this.GetExpectation(ExpectedDeleteQueryFiltered), template.Query);
@@ -61,11 +55,8 @@
         [Test]
         public void ShouldBuildSelectQuery()
         {
-            // Arrange
-            var table = QueryBuilderCache.GetEntityTable<Person>();
-
-            // Act
-            var template = QueryBuilder.New(table).Select(table.Columns).BuildTemplate();
+            // Arrange, Act
+            var template = QueryBuilder.From<Person>().Select(person => person.Columns).BuildTemplate();
 
             // Assert
             Assert.AreEqual(this.GetExpectation(ExpectedSelectQuery), template.Query);
@@ -74,11 +65,13 @@
         [Test]
         public void ShouldBuildSelectQueryFiltered()
         {
-            // Arrange
-            var table = QueryBuilderCache.GetEntityTable<Person>();
-
-            // Act
-            var template = QueryBuilder.New(table).Select(table.Columns).Where(table.GetPrimaryKey()).And(table["FirstName"]).BuildTemplate();
+            // Arrange, Act
+            var template =
+                QueryBuilder.From<Person>()
+                    .Select(person => person.Columns)
+                    .Where(person => person.GetPrimaryKey())
+                    .And(person => person["FirstName"])
+                    .BuildTemplate();
 
             // Assert
             Assert.AreEqual(this.GetExpectation(ExpectedSelectQueryFiltered), template.Query);

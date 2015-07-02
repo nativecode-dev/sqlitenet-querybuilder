@@ -34,19 +34,19 @@
         protected internal void Filter(
             EntityColumn column,
             string @group = "Default",
-            FilterExpression expression = FilterExpression.Default,
+            FilterCondition condition = FilterCondition.Default,
             FilterComparison comparison = FilterComparison.Default)
         {
-            this.Filters.Add(new EntityColumnFilter(column, @group, expression, comparison));
+            this.Filters.Add(new EntityColumnFilter(column, @group, condition, comparison));
         }
 
         protected internal void Filter(
             IEnumerable<EntityColumn> columns,
             string @group = "Default",
-            FilterExpression expression = FilterExpression.Default,
+            FilterCondition condition = FilterCondition.Default,
             FilterComparison comparison = FilterComparison.Default)
         {
-            this.Filters.AddRange(columns.Select(c => new EntityColumnFilter(c, @group, expression, comparison)));
+            this.Filters.AddRange(columns.Select(c => new EntityColumnFilter(c, @group, condition, comparison)));
         }
 
         protected internal void Select(EntityColumn column)

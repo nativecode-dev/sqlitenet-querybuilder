@@ -2,11 +2,11 @@
 {
     public static class FilterExpressionExtensions
     {
-        public static string Stringify(this FilterExpression expression)
+        public static string Stringify(this FilterCondition condition)
         {
-            switch (expression)
+            switch (condition)
             {
-                case FilterExpression.Or:
+                case FilterCondition.Or:
                     return "OR";
 
                 default:

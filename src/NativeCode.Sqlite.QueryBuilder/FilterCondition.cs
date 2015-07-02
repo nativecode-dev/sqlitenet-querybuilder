@@ -1,6 +1,6 @@
 namespace NativeCode.Sqlite.QueryBuilder
 {
-    public enum FilterExpression
+    public enum FilterCondition
     {
         Default = 0,
 

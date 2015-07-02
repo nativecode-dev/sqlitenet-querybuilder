@@ -59,7 +59,7 @@
 
                 if (!last)
                 {
-                    result += Space + filter.Expression.Stringify() + Space;
+                    result += Space + filter.Condition.Stringify() + Space;
                 }
             }
 
