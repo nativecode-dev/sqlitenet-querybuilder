@@ -16,7 +16,7 @@
 
         public IQueryValueConverter GetConverter()
         {
-            return QueryBuilder.Configuration.Converters.FirstOrDefault(x => x.CanConvert(this.Type));
+            return QueryBuilderConfiguration.Current.Converters.FirstOrDefault(x => x.CanConvert(this.Type));
         }
     }
 }

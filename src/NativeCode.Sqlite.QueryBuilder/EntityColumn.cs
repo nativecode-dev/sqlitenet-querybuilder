@@ -9,9 +9,11 @@
 
     public class EntityColumn
     {
-        public EntityColumn(PropertyInfo property)
+        public EntityColumn(EntityTable table, PropertyInfo property)
         {
             this.Property = property;
+            this.Table = table;
+
             this.SetupProperties();
         }
 
@@ -50,14 +52,11 @@
 
         public int? SortPriority { get; private set; }
 
+        public EntityTable Table { get; private set; }
+
         public bool UseDefaultValue { get; private set; }
 
         protected PropertyInfo Property { get; private set; }
-
-        public string GetAsToken()
-        {
-            return "{" + this.GetColumnName() + "}";
-        }
 
         private string GetColumnName()
         {
@@ -73,7 +72,7 @@
 
         private void SetupProperties()
         {
-            this.Alias = this.GetColumnName();
+            this.Alias = this.PropertyName;
             this.Name = this.GetColumnName();
 
             var defaultAttribute = this.Property.GetCustomAttribute<DefaultAttribute>();

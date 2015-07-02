@@ -20,10 +20,10 @@ namespace NativeCode.Sqlite.QueryBuilder
 
             foreach (var property in properties)
             {
-                this.columns.Add(new EntityColumn(property));
+                this.columns.Add(new EntityColumn(this, property));
             }
 
-            this.Alias = this.GetTableName();
+            this.Alias = this.TypeName;
             this.Name = this.GetTableName();
         }
 
@@ -43,14 +43,19 @@ namespace NativeCode.Sqlite.QueryBuilder
 
         protected Type Type { get; private set; }
 
-        public IEnumerable<EntityColumn> GetCompositeKeys()
+        public EntityColumn this[string key]
         {
-            return from column in this.Columns where column.IsPrimaryKey select column;
+            get { return this.Columns.Single(c => c.PropertyName == key); }
         }
 
         public IEnumerable<EntityColumn> GetAllColumns()
         {
             return from column in this.Columns select column;
+        }
+
+        public IEnumerable<EntityColumn> GetCompositeKeys()
+        {
+            return from column in this.Columns where column.IsPrimaryKey select column;
         }
 
         public IEnumerable<EntityColumn> GetIndexedColumns()

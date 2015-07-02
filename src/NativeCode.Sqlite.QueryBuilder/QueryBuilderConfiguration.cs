@@ -11,16 +11,28 @@
     {
         public static readonly QueryBuilderConfiguration Default = new QueryBuilderConfiguration(true);
 
+        private static QueryBuilderConfiguration current = Default;
+
         private bool isFrozen;
 
         public QueryBuilderConfiguration()
         {
             this.Converters = new List<IQueryValueConverter> { new DateTimeConverter() };
+
+            this.IncludeSemiColon = true;
+            this.QualifyColumnNames = true;
+            this.QualifyTableNames = true;
         }
 
         private QueryBuilderConfiguration(bool frozen) : this()
         {
             this.isFrozen = frozen;
+        }
+
+        public static QueryBuilderConfiguration Current
+        {
+            get { return current; }
+            set { current = value; }
         }
 
         public List<IQueryValueConverter> Converters { get; private set; }
@@ -30,6 +42,8 @@
         {
             get { return this.isFrozen; }
         }
+
+        public bool IncludeSemiColon { get; set; }
 
         public bool QualifyColumnNames { get; set; }
 

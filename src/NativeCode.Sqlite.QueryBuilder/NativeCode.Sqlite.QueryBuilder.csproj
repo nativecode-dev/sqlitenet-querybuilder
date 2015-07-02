@@ -38,14 +38,30 @@
     <Compile Include="Attributes\ConvertAttribute.cs" />
     <Compile Include="Attributes\SortAttribute.cs" />
     <Compile Include="Attributes\SortDirection.cs" />
+    <Compile Include="Exceptions\StatementException.cs" />
+    <Compile Include="Extensions\EntityTableExtensions.cs" />
+    <Compile Include="Extensions\FilterComparisonExtensions.cs" />
+    <Compile Include="Extensions\FilterExpressionExtensions.cs" />
+    <Compile Include="Statements\DeleteStatement.cs" />
+    <Compile Include="EntityColumnSort.cs" />
+    <Compile Include="Statements\InsertStatement.cs" />
+    <Compile Include="Statements\OrderByStatement.cs" />
+    <Compile Include="Statements\SelectStatement.cs" />
+    <Compile Include="Statements\SetStatement.cs" />
+    <Compile Include="Statements\UpdateStatement.cs" />
+    <Compile Include="Statements\ValuesStatement.cs" />
+    <Compile Include="Statements\WhereStatement.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\EnumConverter.cs" />
     <Compile Include="Extensions\EntityColumnExtensions.cs" />
-    <Compile Include="TemplateBuilders\DeleteQueryTemplateBuilder.cs" />
+    <Compile Include="Statements\QueryStatement.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IFreezable.cs" />
     <Compile Include="Converters\IQueryValueConverter.cs" />
-    <Compile Include="TemplateBuilders\InsertQueryTemplateBuilder.cs" />
+    <Compile Include="EntityColumnFilter.cs" />
+    <Compile Include="FilterComparison.cs" />
+    <Compile Include="FilterExpression.cs" />
     <Compile Include="QueryBuilderCache.cs" />
     <Compile Include="EntityColumn.cs" />
     <Compile Include="EntityTable.cs" />
@@ -53,9 +69,6 @@
     <Compile Include="QueryBuilder.cs" />
     <Compile Include="QueryBuilderConfiguration.cs" />
     <Compile Include="QueryTemplate.cs" />
-    <Compile Include="TemplateBuilders\QueryTemplateBuilder.cs" />
-    <Compile Include="TemplateBuilders\SelectQueryTemplateBuilder.cs" />
-    <Compile Include="TemplateBuilders\UpdateQueryTemplateBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="SQLite.Net, Version=3.0.5.0, Culture=neutral, processorArchitecture=MSIL">
