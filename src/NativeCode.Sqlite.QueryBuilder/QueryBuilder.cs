@@ -43,10 +43,12 @@
 
         public virtual QueryTemplate BuildTemplate()
         {
+            QueryStatement parent = this.statements.First();
+
             while (this.statements.Any())
             {
                 var statement = this.statements.Dequeue();
-                statement.WriteTo(this.template);
+                statement.WriteTo(this.template, parent);
             }
 
             this.template.Append(";");
@@ -94,6 +96,14 @@
         {
             this.BeginStatement(new OrderByStatement(this.Table));
             this.CurrentStatement.Sort(factory(this.Table));
+
+            return this;
+        }
+
+        public QueryBuilder Update(Func<EntityTable, IEnumerable<EntityColumn>> factory)
+        {
+            this.BeginStatement(new UpdateStatement(this.Table));
+            this.CurrentStatement.Select(factory(this.Table));
 
             return this;
         }

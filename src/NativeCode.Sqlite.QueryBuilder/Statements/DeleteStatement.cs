@@ -12,7 +12,7 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1126:PrefixCallsCorrectly", Justification = "Reviewed. Suppression is OK here.")]
-        protected internal override void WriteTo(StringBuilder template)
+        protected internal override void WriteTo(StringBuilder template, QueryStatement parent)
         {
             template.Append(this.Keyword);
             template.Append(Space);

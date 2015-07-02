@@ -14,7 +14,7 @@
             return current is SelectStatement || current is WhereStatement;
         }
 
-        protected internal override void WriteTo(StringBuilder template)
+        protected internal override void WriteTo(StringBuilder template, QueryStatement parent)
         {
             throw new NotImplementedException();
         }

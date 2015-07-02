@@ -81,7 +81,7 @@ namespace NativeCode.Sqlite.QueryBuilder
             return from column in this.Columns where column.IsSorted orderby column.SortPriority orderby column.Name select column;
         }
 
-        public IEnumerable<EntityColumn> GetUpdatableColumns()
+        public IEnumerable<EntityColumn> GetMutableColumns()
         {
             return this.Columns.Where(column => !column.IsPrimaryKey && !column.IsIgnored && !column.IsReadOnly && !column.UseDefaultValue);
         }

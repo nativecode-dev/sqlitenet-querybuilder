@@ -20,7 +20,12 @@
             return column.PropertyName.Tokenize();
         }
 
-        public static string GetName(this EntityColumn column, bool allowAlias = true)
+        public static string GetName(this EntityColumn column)
+        {
+            return column.GetName(true);
+        }
+
+        public static string GetName(this EntityColumn column, bool allowAlias)
         {
             var name = column.Name;
 

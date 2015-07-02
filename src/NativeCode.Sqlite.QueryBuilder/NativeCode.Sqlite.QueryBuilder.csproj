@@ -47,9 +47,7 @@
     <Compile Include="Statements\InsertStatement.cs" />
     <Compile Include="Statements\OrderByStatement.cs" />
     <Compile Include="Statements\SelectStatement.cs" />
-    <Compile Include="Statements\SetStatement.cs" />
     <Compile Include="Statements\UpdateStatement.cs" />
-    <Compile Include="Statements\ValuesStatement.cs" />
     <Compile Include="Statements\WhereStatement.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\EnumConverter.cs" />

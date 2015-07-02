@@ -8,11 +8,15 @@
 
     public abstract class QueryStatement
     {
-        protected static readonly string Space = " ";
+        protected const string CloseParens = ")";
 
-        protected readonly List<EntityColumnFilter> Filters = new List<EntityColumnFilter>();
+        protected const string OpenParens = "(";
 
-        protected readonly List<EntityColumn> Selections = new List<EntityColumn>();
+        protected const string Space = " ";
+
+        protected readonly List<EntityColumnFilter> Filterables = new List<EntityColumnFilter>();
+
+        protected readonly List<EntityColumn> Selectables = new List<EntityColumn>();
 
         protected readonly List<EntityColumnSort> Sortables = new List<EntityColumnSort>();
 
@@ -37,7 +41,7 @@
             FilterCondition condition = FilterCondition.Default,
             FilterComparison comparison = FilterComparison.Default)
         {
-            this.Filters.Add(new EntityColumnFilter(column, @group, condition, comparison));
+            this.Filterables.Add(new EntityColumnFilter(column, @group, condition, comparison));
         }
 
         protected internal void Filter(
@@ -46,17 +50,17 @@
             FilterCondition condition = FilterCondition.Default,
             FilterComparison comparison = FilterComparison.Default)
         {
-            this.Filters.AddRange(columns.Select(c => new EntityColumnFilter(c, @group, condition, comparison)));
+            this.Filterables.AddRange(columns.Select(c => new EntityColumnFilter(c, @group, condition, comparison)));
         }
 
         protected internal void Select(EntityColumn column)
         {
-            this.Selections.Add(column);
+            this.Selectables.Add(column);
         }
 
         protected internal void Select(IEnumerable<EntityColumn> columns)
         {
-            this.Selections.AddRange(columns);
+            this.Selectables.AddRange(columns);
         }
 
         protected internal void Sort(EntityColumn column, SortDirection direction = SortDirection.Default)
@@ -69,6 +73,6 @@
             this.Sortables.AddRange(columns.Select(c => new EntityColumnSort(c, SortDirection.Default)));
         }
 
-        protected internal abstract void WriteTo(StringBuilder template);
+        protected internal abstract void WriteTo(StringBuilder template, QueryStatement parent);
     }
 }
